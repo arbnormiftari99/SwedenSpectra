@@ -14,9 +14,9 @@ import useStyles from "./styles.js"
 const App = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const {currentId, setCurrentId} = useState(null);
+    const [currentId, setCurrentId] = useState(null);
 
-    useEffect(() => {
+    useEffect(() => {   
         dispatch(getPosts());
     }, [dispatch]);
 
@@ -47,10 +47,10 @@ const App = () => {
             <Container>
                 <Grid container justifyContent="space-between" alignItems="stretch" spacing={3}>
                     <Grid item xs={12} sm={7}>
-                     <Posts/>
+                     <Posts setCurrentId={setCurrentId}/>
                     </Grid>
                     <Grid item xs={12} sm={4}>
-                    <Form/>
+                    <Form currentId={currentId} setCurrentId={setCurrentId}/>
                     </Grid>
 
                 </Grid>

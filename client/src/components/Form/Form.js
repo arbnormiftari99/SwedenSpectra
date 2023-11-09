@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import useStyles from "./styles.js"
 import { TextField, Button, Typography, Paper} from '@material-ui/core';
 import FileBase from 'react-file-base64';
-import { useDispatch } from 'react-redux';
-import { createPost } from '../../actions/posts'; 
+import { useDispatch, useSelector } from 'react-redux';
+import { createPost, updatePost } from '../../actions/posts'; 
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
-const Form = () => {
+const Form = ({currentId, setCurrentId}) => {
     const initialFormState = {
         creator: '',
         title: '',
@@ -14,26 +14,42 @@ const Form = () => {
         tags: '',
         selectedFiles: '',
       };
+      const post = useSelector((state) => currentId ? state.posts.find((p) => p._id === currentId) : null);
     
       const [postData, setPostData] = useState(initialFormState);
       const [isSubmitSuccessful, setIsSubmitSuccessful] = useState(false); 
 
-    
       const classes = useStyles();
       const dispatch = useDispatch();
+
+      useEffect(() => {
+        if(post) setPostData(post);
+      }, [post])
     
     
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await dispatch(createPost(postData));
-      setIsSubmitSuccessful(true); 
-      setPostData(initialFormState); 
+      if(currentId === 0){
+        // dispatch(updatePost(currentId, postData));
+        dispatch(createPost(postData));
+        console.log('working');
+        setIsSubmitSuccessful(true); 
+      } else {
+        dispatch(updatePost(currentId, postData));
+        setIsSubmitSuccessful(true); 
+        // setPostData(initialFormState); 
+      }
+
+      console.log('error');
+     
     } catch (error) {
       console.error('Submission error:', error);
+      console.log(error);
     }}
     
       const clear = () => {
+        setCurrentId(0);
         setPostData(initialFormState);
       }
 
@@ -51,7 +67,7 @@ const Form = () => {
     return (
         <Paper className={classes.paper}>
             <form autoComplete="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
-                <Typography variant="h6">Creating a Memory</Typography>
+                <Typography variant="h6">{currentId ? 'Editing' : 'Creating'} a Post</Typography>
                 <TextField name="creator" variant="outlined" label="Creator" fullWidth value={postData.creator} onChange={(e) => setPostData({ ...postData, creator: e.target.value})}/>
                 <TextField name="title" variant="outlined" label="Title" fullWidth value={postData.title} onChange={(e) => setPostData({ ...postData, title: e.target.value})}/>
                 <TextField name="message" variant="outlined" label="Message" fullWidth value={postData.message} onChange={(e) => setPostData({ ...postData, message: e.target.value})}/>
