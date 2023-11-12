@@ -27,7 +27,7 @@ const App = () => {
         <AppBar className={classes.appBar} position="static" color="inherit"> 
 
         <Typography className={classes.heading} variant="h2" align="center">
-        <img className={classes.image} src={logoGif} alt="memories" height="100" width="300"/>
+        <img className={classes.image} src={logoGif} alt="memories" height="60"/>
 
         {/* <span style={{ fontFamily: 'Lobster', color: 'rgb(0, 106, 167)' }}>Sweden</span>
         <span style={{ fontFamily: 'Lobster', color: 'rgb(254, 204, 2)' }}>Spectra</span> */}
@@ -45,7 +45,7 @@ const App = () => {
 
         <Grow in>
             <Container>
-                <Grid container justifyContent="space-between" alignItems="stretch" spacing={3}>
+                <Grid className={classes.mainContainer} container justifyContent="space-between" alignItems="stretch" spacing={3}>
                     <Grid item xs={12} sm={7}>
                      <Posts setCurrentId={setCurrentId}/>
                     </Grid>
