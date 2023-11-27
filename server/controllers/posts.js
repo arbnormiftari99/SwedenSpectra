@@ -18,7 +18,6 @@ export const createPost = async (req, res) => {
 try {
     await newPost.save();
     res.status(200).json(newPost);
-    
 } catch (error) {
    console.log(error);
    console.log('Error from controllers');

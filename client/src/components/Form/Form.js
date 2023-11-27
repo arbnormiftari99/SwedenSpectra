@@ -32,15 +32,16 @@ const Form = ({currentId, setCurrentId}) => {
     try {
       if(currentId === 0){
         // dispatch(updatePost(currentId, postData));
-        dispatch(createPost(postData));
+       await dispatch(createPost(postData));
+       clear();
         console.log('working');
         setIsSubmitSuccessful(true); 
-        clear();
 
       } else {
-        dispatch(updatePost(currentId, postData));
+       await dispatch(updatePost(currentId, postData));
+       clear();
         setIsSubmitSuccessful(true); 
-        clear();
+      
 
         // setPostData(initialFormState); 
       }

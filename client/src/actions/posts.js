@@ -17,6 +17,8 @@ export const createPost = (post) => async (dispatch) => {
       
      } catch (error) {
        console.log(error);
+      //  console.log('Error from controllers');
+
       }
 }
 
