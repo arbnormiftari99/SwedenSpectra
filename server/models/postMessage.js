@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 const postSchema = mongoose.Schema({
     title: String,
     message: String,
+    name: String,
     creator: String,
     tags: [String],
     selectedFile: String,
@@ -16,6 +17,6 @@ const postSchema = mongoose.Schema({
     },
 });
 
-const PostMessage = mongoose.model('PostMessage', postSchema);
+let PostMessage = mongoose.model('PostMessage', postSchema);
 
 export default PostMessage;

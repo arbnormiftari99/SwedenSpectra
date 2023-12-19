@@ -1,5 +1,6 @@
 import * as api from '../api';
-import { UPDATE, DELETE, CREATE, FETCH_ALL, LIKE } from '../constants/actionTypes';
+import { FETCH_ALL, CREATE, UPDATE, DELETE, LIKE } from '../constants/actionTypes';
+
 
 export const getPosts = () => async (dispatch) => {
   try {
@@ -17,7 +18,6 @@ export const createPost = (post) => async (dispatch) => {
       
      } catch (error) {
        console.log(error);
-      //  console.log('Error from controllers');
 
       }
 }
@@ -42,12 +42,28 @@ export const updatePost = (id, post) => async(dispatch) => {
     }
 }
 
-export const likePost = (id) => async(dispatch) => {
- try {
-  const { data } = await api.likePost(id);
-  dispatch({type: LIKE, payload: data});
+// export const likePost = (id) => async(dispatch) => {
+//   const user = JSON.parse(localStorage.getItem('profile'));
+
+//  try {
+//   const { data } = await api.likePost(id, user && user.token);
+//   dispatch({type: LIKE, payload: data});
   
- } catch (error) {
-  console.log(error);
- }
-}
+//  } catch (error) {
+//   console.log(error);
+//  }
+// }
+export const likePost = (id) => async (dispatch) => {
+  const user = JSON.parse(localStorage.getItem('profile'));
+  const token = user ? user.token : undefined;
+
+  try {
+    const { data } = await api.likePost(id, token);
+
+    dispatch({ type: LIKE, payload: data });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+

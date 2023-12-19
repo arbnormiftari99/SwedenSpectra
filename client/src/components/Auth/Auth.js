@@ -8,14 +8,16 @@ import { GoogleLogin, googleLogout } from '@react-oauth/google';
 import { useDispatch } from 'react-redux';
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from 'react-router-dom'
-import { signin } from '../../actions/auth';
-import { signup } from '../../actions/auth';
+import { signin, signup} from '../../actions/auth';
+// const { OAuth2Client } = require('google-auth-library');
 
 
-const initialState = {firstName: '', lastName: '', email: '', password: '', confirmPassword: '',}
 
-const Auth = () => {
+const initialState = {firstName: '', lastName: '', email: '', password: '', confirmPassword: ''};
+
+const SignUp = () => {
     const classes = useStyles();
+
     const [showPassword, setShowPassword] = useState(false);
     const [isSignup, setIsSignup] = useState(false);
     const dispatch = useDispatch();
@@ -23,42 +25,77 @@ const Auth = () => {
 
     const [formData, setFormData] = useState(initialState);
 
-    const handleShowPassword = () => setShowPassword( (prevShowPassword) => !prevShowPassword )
+    const handleShowPassword = () => setShowPassword( (prevShowPassword) => !prevShowPassword );
+ 
+
+    const switchMode = () => {
+        setFormData(initialState);
+        setIsSignup((prevIsSignup) => !prevIsSignup);
+        setShowPassword(false);
+    }
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
       if(isSignup){
-        dispatch(signup(formData, navigate('/')));
+        dispatch(signup(formData));
+        navigate('/')
       }else{
-        dispatch(signin(formData, navigate('/')));
+        dispatch(signin(formData));
+        navigate('/')
       }
     }
+
+
+
+    const googleSucces = async (res) => {
+        const token = res.credential;
+      
+        if (token.length < 500) {
+          const credential = jwtDecode.verify(token);
+          const userId = credential ? credential.id : undefined;
+          const result = {
+            _id: userId,
+            email: credential.email,
+            name: credential.name,
+           picture: credential.picture
+
+          };
+      
+          try {
+            dispatch({ type: 'AUTH', data: { result, token } });
+            navigate('/');
+          } catch (error) {
+            console.error('Submission error:', error);
+            console.log(error);
+          }
+        } else {
+          const payload = token.split('.')[1];
+          const decodedPayload = Buffer.from(payload, 'base64').toString();
+          const credential = JSON.parse(decodedPayload);
+          const userId = credential.sub;
+          const result = {
+            _id: userId,
+            email: credential.email,
+            name: credential.name,
+            picture: credential.picture
+          };
+      
+          try {
+            dispatch({ type: 'AUTH', data: { result, token } });
+            navigate('/');
+          } catch (error) {
+            console.error('Submission error:', error);
+            console.log(error);
+          }
+        }
+      };
+
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value})
     }
 
-    const switchMode = () => {
-        setIsSignup((prevIsSignup) => !prevIsSignup);
-        setShowPassword(false);
-    }
-
-    const googleSucces = async (res) => {
-        console.log("JWT encoded id token: " +res.credential);
-        const result = res && res.clientId ? res.clientId : undefined;
-        const credential = jwtDecode(res.credential) && result;
-        // const result = res && res.clientId ? res.clientId : undefined;
-        // const credential = res && res.userObject ? res.userObject : undefined;
-        console.log(credential);    
-        // console.log(result);
-        try {
-            dispatch({type: 'AUTH', data: {credential}});
-            navigate('/');
-
-        } catch (error) {
-            console.log(error);
-        }     
-    }
 
 
   return (
@@ -84,7 +121,6 @@ const Auth = () => {
                     <Input name='password' label='Password' handleChange={handleChange} type={showPassword ? 'text' : 'password'} handleShowPassword={handleShowPassword} />
                         {isSignup && <Input name='confirmPassword' label='Repeat Password' handleChange={handleChange} type='password'/>}
 
-
             </Grid>
         
          
@@ -100,6 +136,8 @@ const Auth = () => {
                 variant="contained"
                 onSuccess={googleSucces}
                 onError={() => console.log('Error')}
+                // cookiePolicy="single_host_origin"
+
           />
 
 
@@ -115,7 +153,6 @@ const Auth = () => {
                    Don't have an account yet? <span style={{ color: 'blue' }}>Sign Up</span>
                   </span>
                 )}
-                        {/* {isSignup ? 'Already have an account? Sign In' : 'Don\'t have an account yet? Sign Up'} */}
                     </Button>
 
                 </Grid>
@@ -128,4 +165,4 @@ const Auth = () => {
   )
 }
 
-export default Auth
+export default SignUp

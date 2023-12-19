@@ -4,11 +4,7 @@ import useStyles from './styles'
 import logoGif from "../../images/LogoGif.gif";
 import { Link, useNavigate, useLocation} from "react-router-dom";
 import { useDispatch } from 'react-redux';
-
-
-
-
-
+import { jwtDecode } from 'jwt-decode'
 
 const Navbar = () => {
  
@@ -18,18 +14,21 @@ const Navbar = () => {
     const dispatch = useDispatch();
     const location = useLocation();
 
-
-    console.log(user);
-
-
     useEffect(() => {
       const token = user && user.token ? user.token : undefined;
-      setUser(JSON.parse(localStorage.getItem('profile')))
-    },[location])
+       
+      if (token) {
+        const decodedToken = jwtDecode(token);
+  
+        if (decodedToken.exp * 1000 < new Date().getTime()) logout();
+      }
+      setUser(JSON.parse(localStorage.getItem('profile')));
+    }, [location]);
+  
     
     const logout = () => {
       dispatch({ type: 'LOGOUT'});
-      navigate('/');
+      navigate('/auth');
       setUser(null);
     }
 
@@ -49,11 +48,11 @@ const Navbar = () => {
     <Toolbar className={classes.toolbar}>
        {user ? (
         <div className={classes.profile}>
-       <Avatar className={classes.purple} alt={user.credential.name} src={user.credential.picture}>
-           {user.credential.name.charAt(0)};
+       <Avatar className={classes.purple} alt={user.result.name} src={user.result.picture}>
+           {user.result.name.charAt(0)}
         </Avatar>
           <Typography className={classes.userName} variant="h6">
-                 {user.credential.name}
+                 {user.result.name}
              </Typography>
           <Button variant="contained" className={classes.logout} color="secondary" onClick={logout}>
                  Logout

@@ -8,47 +8,51 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
 const Form = ({currentId, setCurrentId}) => {
     const initialFormState = {
-        creator: '',
+        // creator: '',
         title: '',
         message: '',
         tags: '',
         selectedFiles: '',
       };
-      const post = useSelector((state) => currentId ? state.posts.find((p) => p._id === currentId) : null);
+      const post = useSelector((state) => currentId ? state.posts.find((message) => message._id === currentId) : null);
     
       const [postData, setPostData] = useState(initialFormState);
       const [isSubmitSuccessful, setIsSubmitSuccessful] = useState(false); 
+      const user = JSON.parse(localStorage.getItem('profile'));
 
       const classes = useStyles();
       const dispatch = useDispatch();
 
       useEffect(() => {
         if(post) setPostData(post);
-      }, [post])
+      }, [post]);
     
-    
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
+    let userName = '';
+    if (user && user.result && user.result.name) {
+      userName = user.result.name;
+    }
+  
     try {
-      if(currentId === 0){
-        // dispatch(updatePost(currentId, postData));
-       await dispatch(createPost(postData));
-       clear();
-        console.log('working');
-        setIsSubmitSuccessful(true); 
-
+      if (currentId === 0) {
+        dispatch(createPost({ ...postData, name: userName }));
+        clear();
+        setIsSubmitSuccessful(true);
       } else {
-       await dispatch(updatePost(currentId, postData));
-       clear();
-        setIsSubmitSuccessful(true); 
-      
-
-        // setPostData(initialFormState); 
+        dispatch(updatePost(currentId, { ...postData, name: userName }));
+        clear();
+        setIsSubmitSuccessful(true);
+        // setPostData(initialFormState);
       }
     } catch (error) {
       console.error('Submission error:', error);
       console.log(error);
-    }}
+    }
+  };
+  
     
       const clear = () => {
         setCurrentId(0);
@@ -65,15 +69,26 @@ const Form = ({currentId, setCurrentId}) => {
         }
       },[isSubmitSuccessful]);
 
+
+      
+    if(!user || !user.result || !user.result.name){
+      return(
+        <Paper className={classes.paper}>
+          <Typography variant="h6" align="center">
+            Please Sign In to create your own posts and to like other's posts
+          </Typography>
+        </Paper>
+      )
+    }
     
     return (
         <Paper className={classes.paper}>
             <form autoComplete="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
                 <Typography variant="h6">{currentId ? 'Editing' : 'Creating'} a Post</Typography>
-                <TextField name="creator" variant="outlined" label="Creator" fullWidth value={postData.creator} onChange={(e) => setPostData({ ...postData, creator: e.target.value})}/>
+                {/* <TextField name="creator" variant="outlined" label="Creator" fullWidth value={postData.creator} onChange={(e) => setPostData({ ...postData, creator: e.target.value})}/> */}
                 <TextField name="title" variant="outlined" label="Title" fullWidth value={postData.title} onChange={(e) => setPostData({ ...postData, title: e.target.value})}/>
                 <TextField name="message" variant="outlined" label="Message" fullWidth value={postData.message} onChange={(e) => setPostData({ ...postData, message: e.target.value})}/>
-                <TextField name="tags" variant="outlined" label="Tags" fullWidth value={postData.tags} onChange={(e) => setPostData({ ...postData, tags: e.target.value.split(',')})}/>
+                <TextField name="tags" variant="outlined" label="Tags (Comma seperated)" fullWidth value={postData.tags} onChange={(e) => setPostData({ ...postData, tags: e.target.value.split(',')})}/>
                 <div className={classes.fileInput}><FileBase type="file" multiple={false} onDone={({base64}) => setPostData({ ...postData, selectedFile: base64 })}/></div>
                 {isSubmitSuccessful && <CheckCircleOutlineIcon color="success" fontSize="large" />}
                 <Button className={classes.buttonSubmit} variant="contained" color="primary" size="large" type="submit" fullWidth>Submit</Button>
