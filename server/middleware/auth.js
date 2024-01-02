@@ -8,9 +8,8 @@ try {
 
     const isCustomAuth = token.length < 500;
     let decodedData;
-
     if(token && isCustomAuth){
-        decodedData = jwt.verify(token, 'arbnordrenica');
+        decodedData = jwt.verify(token, process.env.Secret);
         req.userId = decodedData ? decodedData.id : undefined;
     }else{
         decodedData = jwt.decode(token);

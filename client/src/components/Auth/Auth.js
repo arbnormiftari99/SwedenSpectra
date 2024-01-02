@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from 'react-router-dom'
 import { signin, signup} from '../../actions/auth';
-// const { OAuth2Client } = require('google-auth-library');
+
 
 
 
@@ -35,15 +35,14 @@ const SignUp = () => {
     }
 
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
       if(isSignup){
-        dispatch(signup(formData));
-        navigate('/')
+       await dispatch(signup(formData));
       }else{
-        dispatch(signin(formData));
-        navigate('/')
+        await dispatch(signin(formData));
       }
+      navigate('/');
     }
 
 
@@ -64,6 +63,8 @@ const SignUp = () => {
       
           try {
             dispatch({ type: 'AUTH', data: { result, token } });
+           
+
             navigate('/');
           } catch (error) {
             console.error('Submission error:', error);
@@ -83,6 +84,8 @@ const SignUp = () => {
       
           try {
             dispatch({ type: 'AUTH', data: { result, token } });
+         
+
             navigate('/');
           } catch (error) {
             console.error('Submission error:', error);

@@ -14,19 +14,78 @@ const Navbar = () => {
     const dispatch = useDispatch();
     const location = useLocation();
 
-    useEffect(() => {
-      const token = user && user.token ? user.token : undefined;
+    // useEffect(() => {
+    //   setUser(JSON.parse(localStorage.getItem('profile')));
+
+    //   const token = user && user.token ? user.token : undefined;
        
-      if (token) {
-        const decodedToken = jwtDecode(token);
+    //   if (token) {
+
+    //     const decodedToken = jwtDecode(token);
+      
+    //     if (decodedToken.exp * 1000 < new Date().getTime()) {
+    //       logout();
+         
+    //     } else {
+    //       if (localStorage.getItem('profile')) {
+    //         setUser(JSON.parse(localStorage.getItem('profile')));
+    //       } else {
+    //         setUser(null);
+    //       }
+    //     }
+    //   }
+    // }, [location]);
   
-        if (decodedToken.exp * 1000 < new Date().getTime()) logout();
-      }
-      setUser(JSON.parse(localStorage.getItem('profile')));
-    }, [location]);
-  
+    // useEffect(() => {
+    //   if (localStorage.getItem('profile')) {
+    //     setUser(JSON.parse(localStorage.getItem('profile')));
+    //   }
     
-    const logout = () => {
+    //   if (user) {
+    //     const token = user && user.token ? user.token : undefined;
+    //     if (token) {
+    //       const decodedToken = jwtDecode(token);
+    
+    //       if (decodedToken.exp * 1000 < new Date().getTime()) {
+    //         logout();
+    //       } else {
+    //         if (localStorage.getItem('profile')) {
+    //           setUser(JSON.parse(localStorage.getItem('profile')));
+    //         } else {
+    //           setUser(null);
+    //         }
+    //       }
+    //     }
+    //   }
+    // }, [location]);
+    
+
+
+    useEffect(() => {
+      const profileFromStorage = localStorage.getItem('profile');
+      
+      if (profileFromStorage) {
+        const parsedProfile = JSON.parse(profileFromStorage);
+        setUser(parsedProfile);
+    
+        const token = parsedProfile.token;
+        if (token) {
+          const decodedToken = jwtDecode(token);
+          if (decodedToken.exp * 1000 < new Date().getTime()) {
+            logout();
+            setUser(null);
+          }
+        }
+      }
+    }, [location]);
+
+
+
+
+    
+
+    
+     const logout = () => {
       dispatch({ type: 'LOGOUT'});
       navigate('/auth');
       setUser(null);
@@ -46,7 +105,7 @@ const Navbar = () => {
 </div>
 
     <Toolbar className={classes.toolbar}>
-       {user ? (
+       {user && user.result.name ? (
         <div className={classes.profile}>
        <Avatar className={classes.purple} alt={user.result.name} src={user.result.picture}>
            {user.result.name.charAt(0)}

@@ -1,20 +1,24 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Grid, CircularProgress } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
+import CircularProgress from '@mui/joy/CircularProgress';
+
 import Post from './Post/Post.js';
 import useStyles from "./styles.js"
 
 
 const Posts = ({ setCurrentId }) => {
-    const posts = useSelector((state) => state.posts);
-    const sortedPosts = [...posts].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-
+    const {posts, isLoading} = useSelector((state) => state.posts);
+    // const sortedPosts = [...posts].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     const classes = useStyles();
+
+    if(!posts.length && !isLoading) return 'No Posts found!'
+
     return (
-        !posts.length ? <CircularProgress/> : (
+        isLoading ? <CircularProgress size="lg" style={{ marginTop: '20%', marginLeft: '40%' }}/> : (
             <Grid className={classes.container} container alignItems='stretch' spacing={3}>
-                {sortedPosts.map((post) => (
-                    <Grid key={post._id} item xs={12} sm={6}>
+                {posts.map((post) => (
+                    <Grid key={post._id} item xs={12} sm={12} md={6} lg={3}>
                         <Post post={post} setCurrentId={setCurrentId}/> 
                     </Grid>
                 ))}
