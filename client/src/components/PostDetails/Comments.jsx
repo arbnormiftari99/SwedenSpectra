@@ -44,7 +44,6 @@ return (
                <strong>{c.split(': ')[0]}</strong>
                {c.split(':')[1]}
                <div ref={commentsRef} />
-
              </Typography>
         ))}
         
