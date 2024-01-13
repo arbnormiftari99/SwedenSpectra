@@ -22,8 +22,15 @@ app.use((req, res, next) => {
     next();
   });
 
+
+
 app.use('/posts', postRoutes);
 app.use('/user', userRoutes);
+
+
+app.get('/', (req,res) => {
+  res.json("Hello");
+})
 
 
 const CONNECTION_URL = process.env.CONNECTION_URL;
