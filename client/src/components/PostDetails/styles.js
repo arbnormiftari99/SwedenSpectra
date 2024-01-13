@@ -2,13 +2,15 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export default makeStyles((theme) => ({
     media: {
-        display: 'flex',
+        // display: 'flex',
+        flex: 2,
         borderRadius: '20px',
         objectFit: 'cover',
         width: '100%',
         maxHeight: '600px',
     },
     card: {
+        flex: 1,
         display: 'flex',
         width: '100%',
         [theme.breakpoints.down('sm')]: {
@@ -18,7 +20,6 @@ export default makeStyles((theme) => ({
     },
     section: {
        width: 'auto',
-       textAlign: 'center',
         borderRadius: '20px',
         margin: '10px',
         flex: 1,
@@ -26,6 +27,7 @@ export default makeStyles((theme) => ({
     imageSection: {
         marginLeft: '20px',
         width: '50%',
+        flex: 2,
         [theme.breakpoints.down('sm')]: {
             marginLeft: 0,
             width: '100%'
@@ -48,51 +50,58 @@ export default makeStyles((theme) => ({
         borderRadius: '15px',
         height: '40vh'
     },
-    // commentsDetails: {
-    //     width: '300px'
-    // },
     commentsOuterContainer: {
+        
         display: 'flex', justifyContent: 'space-between',
         flexDirection: 'column',
-        width: '500px',
+        width: '400px',
         marginLeft: '50px',
         [theme.breakpoints.down('sm')]: {
-          width: '300px',
-        //   marginRight: '50px',
-
+            justifyContent: 'center',
+            display: 'flex',
+            width: '300px',
         },
         
     },
     commentsInnerContainer: {
        height: '200px', marginRight: '30px', overflowX: 'hidden', wordWrap: 'break-word',
-    //    border: '1px solid red',
+       [theme.breakpoints.down('sm')]: {
+        textAlign: 'center',
+        overflowX: 'hidden',
+         wordWrap: 'break-word',
+         width: '200px',
+    },
+
 
 
     },
     titleContainer: {
-        // width: '300px',
+        grid: '1fr',
         textAlign: 'center',
-
-        //   display: 'inline-block',
           wordWrap: 'break-word',
           [theme.breakpoints.down('sm')]: {
             textAlign: 'center',
-            // width: '200px',
             height: 'auto'
           },
     },
     messageContainer: {
-       width: '300px',
-       textAlign: 'center',
-
-        // display: 'inline-block',
+       width: '400px',
         wordWrap: 'break-word',
         [theme.breakpoints.down('sm')]: {
             textAlign: 'center',
-            width: '200px',
+            width: '300px',
             height: 'auto'
   
           },
+    }, 
+    writeCommentSection: {
+        width: '90%',
+        [theme.breakpoints.down('sm')]: {
+           justifyContent: 'center',
+           width: '70%'
+  
+          },
+
     }
 
 

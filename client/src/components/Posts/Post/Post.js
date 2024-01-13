@@ -107,7 +107,7 @@ const Post = ({ post, setCurrentId }) => {
         <Typography variant="h6">{post.name}</Typography>
         <Typography variant="body2">{moment(post.createdAt).startOf('minute').fromNow()}</Typography>
       </div>
-      {user && user.result && post && (user.result.googleId === post.creator || user.result._id === post.creator) && (
+      {user && user.result && post && (user.result.googleId === post.creator || user.result._id === post.creator || user.result.role === 'admin') && (
 
       <div className={classes.overlay2} name="edit">
         <Button onClick={(e) => {
@@ -145,12 +145,13 @@ const Post = ({ post, setCurrentId }) => {
           <Likes/>
        </Button>
        {
-         user && user.result && post && (user.result.googleId === post.creator || user.result._id === post.creator) && (
+         user && user.result && post && (user.result.googleId === post.creator || user.result._id === post.creator || user.result.role === 'admin') && (
         <Button  size="small" color="secondary" onClick={() => dispatch(deletePost(post._id) && handleDeleteOpen) }>
         <DeleteIcon fontSize="small" /> Delete
       </Button>
            )
         }
+
       </CardActions>
       <DeleteConfirmationDialog
         open={openDeleteDialog}

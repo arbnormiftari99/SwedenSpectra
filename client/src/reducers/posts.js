@@ -10,7 +10,7 @@ export default  (state = { isLoading: true, posts: []}, action) => {
                     posts: action.payload.data,
                     currentPage: action.payload.currentPage,
                     numberOfPages: action.payload.numberOfPages
-                }
+                }   
             case 'FETCH_SEARCH':
                 return {
                     ...state, posts: action.payload

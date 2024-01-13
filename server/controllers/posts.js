@@ -52,7 +52,6 @@ try {
     res.status(200).json(newPost);
 } catch (error) {
    console.log(error);
-   console.log('Error from controllers');
 }
 }
 
@@ -60,7 +59,7 @@ export const updatePost = async(req, res) => {
     const {id: _id} = req.params;
     const post = req.body;
     if(!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('Here is not a valid id');
-    const updatedPost = await PostMessage.findByIdAndUpdate(_id, post, { new: true});
+    const updatedPost = await PostMessage.findByIdAndUpdate(_id, {...post, _id}, { new: true});
     res.json(updatedPost);
 }
 

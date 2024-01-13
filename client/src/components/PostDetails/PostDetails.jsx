@@ -53,10 +53,10 @@ const PostDetails = () => {
           <Typography variant="h3" component="h2" className={classes.titleContainer}>{post.title}</Typography>
           {/* <Typography gutterBottom variant="h6" color="textSecondary" component="h2">{post.tags.map((tag) => `#${tag}`)}</Typography> */}
           <Typography gutterBottom variant="body1" component="p" className={classes.messageContainer}>{post.message}</Typography>
-          <Typography variant="h7">Created by: {post.name}</Typography>
-          <Typography gutterBottom variant="h6" color="textSecondary" component="h2">{post.tags.map((tag) => `#${tag}`)}</Typography>
+          <Typography variant="h7" color="textSecondary" gutterBottom>Created by: {post.name}</Typography>
+          <Typography gutterBottom variant="h6" color="textSecondary" component="h2" className={classes.messageContainer}><strong>Tags:</strong> {post.tags.map((tag) => `#${tag}`)}</Typography>
           <Typography variant="body1">{moment(post.createdAt).fromNow()}</Typography>
-          <Divider style={{ margin: '20px 0'}} />
+          <Divider style={{ margin: '20px 0', width: '20px'}} />
           <Comments post={post}/>
           <Divider style={{ margin: '20px 0'}} />
           </div>

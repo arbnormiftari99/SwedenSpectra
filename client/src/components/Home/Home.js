@@ -40,13 +40,13 @@ const Home = () => {
         if(search.trim() || tags){
             dispatch(getPostsSearch({ search, tags: tags.join(',')}));
             navigate(`/posts/search?searchQuery=${search || 'none'}&tags=${tags.join(',')}`);
+        
         }else{
             navigate('');
 
         }
 
     }
-
     
     const handleAdd = (tag) => setTags([ ...tags, tag])
   
@@ -79,6 +79,7 @@ return (
             value={tags}
             onAdd={handleAdd}
             onDelete={handleDelete}
+            onKeyDown={handleKeyPress}
             label="Type and press enter to add tags"
             variant='outlined'
             />
