@@ -6,7 +6,7 @@ import { Container } from '@material-ui/core';
 import { ToastProvider } from "./components/Providers/ToastProvider.js";
 import { BrowserRouter, Routes, Route, Navigate, useNavigate} from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode'
-
+import Profile from './components/Profile/Profile.js';
 import PostDetails from "./components/PostDetails/PostDetails.jsx";
 import Home from "./components/Home/Home.js";
 import Navbar from "./components/Navbar/Navbar.js";
@@ -33,6 +33,8 @@ const App = () => {
             <Route path="/posts/search" exact element={<Home/>} />
             <Route path="/posts/:id" exact element={<PostDetails/>} />
             <Route path="/auth"  exact element={(!user ? <Auth /> : <Navigate to="/posts" />)} />
+            <Route path="/profile" exact element={<Profile/>} />
+
 
         </Routes>
       </ToastProvider>

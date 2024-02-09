@@ -1,5 +1,5 @@
 import * as api from '../api/index';
-import { AUTH } from '../constants/actionTypes';
+import { AUTH, UPDATE } from '../constants/actionTypes';
 
 
 
@@ -18,6 +18,17 @@ export const signup = (formData, navigate) => async (dispatch) => {
     try {
         const { data } = await api.signUp(formData);
          dispatch({ type: AUTH, data});
+    
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const editProfile = (_id,editedData) => async (dispatch) => {
+    try {
+        const { data } = await api.editProfile(_id, editedData);
+         dispatch({ type: UPDATE, data});
+         console.log(data);
     
     } catch (error) {
         console.log(error);

@@ -22,11 +22,12 @@ const SignUp = () => {
     const [isSignup, setIsSignup] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
+    // const [formErrors, setFormErrors] = useState({});
     const [formData, setFormData] = useState(initialState);
 
     const handleShowPassword = () => setShowPassword( (prevShowPassword) => !prevShowPassword );
- 
+
+
 
     const switchMode = () => {
         setFormData(initialState);
@@ -37,6 +38,7 @@ const SignUp = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
       if(isSignup){
        await dispatch(signup(formData));
       }else{
@@ -96,7 +98,8 @@ const SignUp = () => {
 
 
     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value})
+        setFormData({ ...formData, [e.target.name]: e.target.value});
+        // setFormErrors({...formErrors, [e.target.name]: ''});
     }
 
 
@@ -115,14 +118,14 @@ const SignUp = () => {
                 {
                     isSignup && (
                         <>
-                        <Input name='firstName' label='First Name' handleChange={handleChange} autoFocus half/>
-                        <Input name='lastName' label='Last Name' handleChange={handleChange} half/>
+                        <Input name='firstName' label='First Name' handleChange={handleChange} autoFocus half />
+                        <Input name='lastName' label='Last Name' handleChange={handleChange} half />
 
                         </>
                     )}
                     <Input name='email' label='Email Address' handleChange={handleChange} type='email' />
-                    <Input name='password' label='Password' handleChange={handleChange} type={showPassword ? 'text' : 'password'} handleShowPassword={handleShowPassword} />
-                        {isSignup && <Input name='confirmPassword' label='Repeat Password' handleChange={handleChange} type='password'/>}
+                    <Input name='password' label='Password' handleChange={handleChange} type={showPassword ? 'text' : 'password'} handleShowPassword={handleShowPassword}  />
+                        {isSignup && <Input name='confirmPassword' label='Repeat Password' handleChange={handleChange} type='password' />}
 
             </Grid>
         

@@ -22,6 +22,7 @@ export default makeStyles((theme) => ({
     fontWeight: 300,
   },
   image: {
+    height: '100px',
     marginLeft: '10px',
     marginTop: '5px',
     width: '300px'
@@ -58,6 +59,7 @@ export default makeStyles((theme) => ({
     alignItems: 'center',
   },
   purple: {
+    cursor: 'pointer',
     color: theme.palette.getContrastText(deepPurple[500]),
     backgroundColor: deepPurple[500],
     [theme.breakpoints.down('sm')]: {
