@@ -1,6 +1,6 @@
 import axios from 'axios';
 const API = axios.create({ baseURL: 'https://sweden-spectra.vercel.app'})
-
+axios.defaults.withCredentials = true;
 API.interceptors.request.use((req) => {
     if(localStorage.getItem('profile')){
         req.headers.Authorization = `Bearer ${JSON.parse(localStorage.getItem('profile')).token}`
