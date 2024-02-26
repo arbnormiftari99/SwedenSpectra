@@ -12,7 +12,6 @@ const Profile = () => {
   const [editMode, setEditMode] = useState(false);
   const dispatch = useDispatch();
   const [editedData, setEditedData] = useState({
-    // name: user.result.name,
     password: '',
     newPassword: '',
     confirmPassword: '',
