@@ -1,5 +1,5 @@
 import axios from 'axios';
-const API = axios.create({ baseURL: 'https://sweden-spectra.vercel.app/posts'})
+const API = axios.create({ baseURL: 'https://sweden-spectra-backend.vercel.app/'})
 //https://sweden-spectra.vercel.app
 axios.defaults.withCredentials = true;
 API.interceptors.request.use((req) => {
