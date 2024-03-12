@@ -1,5 +1,6 @@
 import axios from 'axios';
-const API = axios.create({ baseURL: 'https://sweden-spectra.vercel.app'})
+const API = axios.create({ baseURL: 'https://sweden-spectra.vercel.app/posts'})
+//https://sweden-spectra.vercel.app
 axios.defaults.withCredentials = true;
 API.interceptors.request.use((req) => {
     if(localStorage.getItem('profile')){

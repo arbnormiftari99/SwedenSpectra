@@ -12,7 +12,7 @@ const Posts = ({ setCurrentId }) => {
     // const sortedPosts = [...posts].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     const classes = useStyles();
 
-    if(!posts.length && !isLoading) return 'No Posts found!'
+    if(!posts ||!posts.length && !isLoading) return 'No Posts found!'
 
     return (
         isLoading ? <CircularProgress size="lg" style={{ marginTop: '40%', marginLeft: '40%' }}/> : (
