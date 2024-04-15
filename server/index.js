@@ -18,7 +18,7 @@ app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
 const corsOptions ={
   origin:'https://sweden-spectra.vercel.app', 
-  credentials:true,           
+  credentials:"include",           
   optionSuccessStatus:200
 }
 app.use(cors(corsOptions));
