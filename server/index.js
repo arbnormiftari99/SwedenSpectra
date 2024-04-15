@@ -15,8 +15,9 @@ app.use(express.json());
 app.use(bodyParser.json({ limit: "50mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 app.use(cors({
-  origin: 'https://sweden-spectra.vercel.app/*',
-  methods:['GET','POST','DELETE','OPTIONS','PUT','HEAD', 'PATCH']
+  origin: 'https://sweden-spectra.vercel.app',
+  methods:['GET','POST','DELETE','OPTIONS','PUT','HEAD', 'PATCH'],
+  credentials: true
 }));
 
 // app.use(cors());
