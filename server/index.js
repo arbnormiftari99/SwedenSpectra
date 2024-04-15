@@ -12,8 +12,8 @@ const app = express();
 app.use(express.json());
 
 dotenv.config();
-app.use(bodyParser.json({ limit: "10000mb", extended: true }));
-app.use(bodyParser.urlencoded({ limit: "10000mb", extended: true }));
+// app.use(bodyParser.json({ limit: "10000mb", extended: true }));
+// app.use(bodyParser.urlencoded({ limit: "10000mb", extended: true }));
 
 
 const corsOptions ={
