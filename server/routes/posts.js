@@ -8,10 +8,10 @@ import auth from '../middleware/auth.js';
 router.get('/search', getPostsSearch);
 router.get('/', getPosts);
 router.get('/:id', getPost); 
-router.post('/', createPost);
+router.post('/', auth, createPost);
 router.delete('/:id', auth, deletePost);
 router.patch('/:id', auth, updatePost);
-router.patch('/:id/likePost', likePost);
+router.patch('/:id/likePost', auth, likePost);
 router.post('/:id/commentPost', auth, commentPost);
  
 export default router;
