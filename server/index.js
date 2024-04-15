@@ -14,11 +14,33 @@ app.use(express.json());
 
 app.use(bodyParser.json({ limit: "50mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
-app.use(cors({
-  origin: 'https://sweden-spectra.vercel.app',
-  methods:['GET','POST','DELETE','OPTIONS','PUT','HEAD', 'PATCH'],
-  credentials: true
-}));
+
+const corsOptions = {
+  origin: ['https://sweden-spectra.vercel.app'],
+  methods: "GET,HEAD,PUT,OPTIONS,POST,DELETE",
+  allowedHeaders: [
+    "Access-Control-Allow-Headers",
+    "Origin",
+    "X-Requested-With",
+    "Content-Type",
+    "Accept",
+    "Authorization",
+    "token",
+    "Access-Control-Request-Method",
+    "Access-Control-Request-Headers",
+    "Access-Control-Allow-Credentials",
+  ],
+  credentials: true,
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+};
+app.use(cors(corsOptions));
+
+// app.use(cors({
+//   origin: 'https://sweden-spectra.vercel.app',
+//   methods:['GET','POST','DELETE','OPTIONS','PUT','HEAD', 'PATCH'],
+//   credentials: true
+// }));
 
 // app.use(cors());
 // app.use((req, res, next) => {
