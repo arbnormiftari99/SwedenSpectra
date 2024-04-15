@@ -12,11 +12,11 @@ const app = express();
 app.use(express.json());
 
 
-app.use(bodyParser.json({ limit: "100mb", extended: true }));
-app.use(bodyParser.urlencoded({ limit: "100mb", extended: true }));
+app.use(bodyParser.json({ limit: "50mb", extended: true }));
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 app.use(cors({
-  origin:['https://sweden-spectra.vercel.app'],
-  methods:['GET','POST','DELETE','OPTIONS','PUT','HEAD']
+  origin: '*',
+  methods:['GET','POST','DELETE','OPTIONS','PUT','HEAD', 'PATCH']
 }));
 // app.use((req, res, next) => {
 //     res.header('Access-Control-Allow-Origin', 'https://sweden-spectra.vercel.app');
