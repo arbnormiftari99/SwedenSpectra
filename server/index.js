@@ -5,42 +5,23 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import postRoutes from './routes/posts.js';
 import userRoutes from './routes/users.js';
-dotenv.config();
+
 const app = express();
 
 
 app.use(express.json());
 
-
+dotenv.config();
 app.use(bodyParser.json({ limit: "50mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
-// const corsOptions = {
-//   origin: ['https://sweden-spectra.vercel.app'],
-//   methods: "GET,HEAD,PUT,OPTIONS,POST,DELETE",
-//   allowedHeaders: [
-//     "Access-Control-Allow-Headers",
-//     "Origin",
-//     "X-Requested-With",
-//     "Content-Type",
-//     "Accept",
-//     "Authorization",
-//     "token",
-//     "Access-Control-Request-Method",
-//     "Access-Control-Request-Headers",
-//     "Access-Control-Allow-Credentials",
-//   ],
-//   credentials: true,
-//   preflightContinue: false,
-//   optionsSuccessStatus: 204,
-// };
-// app.use(cors(corsOptions));
 
-app.use(cors({
-  origin: 'https://sweden-spectra.vercel.app',
-  methods:['GET','POST','DELETE','OPTIONS','PUT','HEAD', 'PATCH'],
-  credentials: true
-}));
+const corsOptions ={
+  origin:'https://sweden-spectra.vercel.app', 
+  credentials:true,           
+  optionSuccessStatus:200
+}
+app.use(cors(corsOptions));
 
 // app.use(cors());
 // app.use((req, res, next) => {
