@@ -9,11 +9,13 @@ import userRoutes from './routes/users.js';
 const app = express();
 
 
-app.use(express.json());
+
 
 dotenv.config();
 app.use(bodyParser.json({ limit: "3217171771mb"}));
 app.use(bodyParser.urlencoded({ limit: "3217171771mb", extended: true }));
+
+app.use(express.json());
 
 
 const corsOptions ={
