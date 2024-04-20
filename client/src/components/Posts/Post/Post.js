@@ -15,11 +15,6 @@ import { useNavigate } from 'react-router-dom';
 
 
 
-
-
-
-
-
 const Post = ({ post, setCurrentId }) => {
   const showToast  = useToast()
   const classes = useStyles();

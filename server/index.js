@@ -19,14 +19,10 @@ app.use(express.json());
 
 
 const corsOptions ={
-  origin:'https://sweden-spectra.vercel.app', 
-        
+  origin:'https://sweden-spectra.vercel.app/*', 
   optionSuccessStatus:200
 }
 app.use(cors(corsOptions));
-
-
-
 
 
 app.use('/posts', postRoutes);
