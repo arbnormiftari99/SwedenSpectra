@@ -18,11 +18,21 @@ app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 app.use(express.json());
 
 
-const corsOptions ={
-  origin:'https://sweden-spectra.vercel.app', 
-  optionSuccessStatus:200
-}
-app.use(cors(corsOptions));
+// const corsOptions ={
+//   origin:'https://sweden-spectra.vercel.app', 
+//   optionSuccessStatus:200
+// }
+// app.use(cors(corsOptions));
+
+const cors = require('cors');    
+const corsOpts = {
+    origin: '*',
+    credentials: true,
+    methods: ['GET','POST','HEAD','PUT','PATCH','DELETE'],
+    allowedHeaders: ['Content-Type'],
+    exposedHeaders: ['Content-Type']
+};
+app.use(cors(corsOpts))
 
 
 app.use('/posts', postRoutes);
