@@ -51,38 +51,38 @@ export const getPost = async (req,res) => {
    }
 }
 
-// export const createPost = async (req, res) => {
-//     const post = req.body;
-//     const newPost = new PostMessage({ ... post, creator: req.userId, createdAt: new Date().toISOString()});
-// try {
-//     await newPost.save();
-//     res.status(200).json(newPost);
-// } catch (error) {
-//    console.log(error);
-// }
-// }
-
-
-
 export const createPost = async (req, res) => {
-    const { title, message, tags, selectedFile } = req.body;
-    let newPost;
+    const post = req.body;
+    const newPost = new PostMessage({ ... post, creator: req.userId, createdAt: new Date().toISOString()});
+try {
+    await newPost.save();
+    res.status(200).json(newPost);
+} catch (error) {
+   console.log(error);
+}
+}
 
-    try {
-        if (image) {
-            const webpBuffer = await sharp(image.buffer).toFormat('webp').toBuffer();
-            newPost = new PostMessage({ title, message, tags, selectedFile: { buffer: webpBuffer, contentType: 'image/webp' }, creator: req.userId, createdAt: new Date().toISOString() });
-        } else {
-            newPost = new PostMessage({ title, message, creator: req.userId, createdAt: new Date().toISOString() });
-        }
 
-        await newPost.save();
-        res.status(200).json(newPost);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Failed to create post" });
-    }
-};
+
+// export const createPost = async (req, res) => {
+//     const { title, message, tags, selectedFile } = req.body;
+//     let newPost;
+
+//     try {
+//         if (image) {
+//             const webpBuffer = await sharp(image.buffer).toFormat('webp').toBuffer();
+//             newPost = new PostMessage({ title, message, tags, selectedFile: { buffer: webpBuffer, contentType: 'image/webp' }, creator: req.userId, createdAt: new Date().toISOString() });
+//         } else {
+//             newPost = new PostMessage({ title, message, creator: req.userId, createdAt: new Date().toISOString() });
+//         }
+
+//         await newPost.save();
+//         res.status(200).json(newPost);
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({ message: "Failed to create post" });
+//     }
+// };
 
 
 
