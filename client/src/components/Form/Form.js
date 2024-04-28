@@ -12,7 +12,7 @@ const Form = ({currentId, setCurrentId}) => {
         title: '',
         message: '',
         tags: '',
-        selectedFiles: '',
+        selectedFile: '',
       };
       const post = useSelector((state) => (currentId ? state.posts.posts.find((message) => message._id === currentId) : null));
     

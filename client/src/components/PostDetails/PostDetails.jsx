@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { Paper, Typography, CircularProgress, Divider, Grid } from '@material-ui/core';
+import { Paper, Typography, CircularProgress, Divider, Card, CardMedia } from '@material-ui/core';
+import Grid from '@mui/material/Unstable_Grid2';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -45,7 +46,9 @@ const PostDetails = () => {
       <div className={classes.card}>
 
       <div className={classes.imageSection}>
-          <img className={classes.media} src={post.selectedFile || 'https://static.vecteezy.com/system/resources/previews/005/337/799/original/icon-image-not-found-free-vector.jpg'} alt={post.title} /> 
+      {post.selectedFile && post.selectedFile.map((file, index) => (
+       <img key={index} className={classes.media} src={file.url} alt={post.title} />
+        ))}
         </div>
 
         <div className={classes.section}>
@@ -66,22 +69,25 @@ const PostDetails = () => {
           <img className={classes.media} src={post.selectedFile || 'https://static.vecteezy.com/system/resources/previews/005/337/799/original/icon-image-not-found-free-vector.jpg'} alt={post.title} /> 
         </div> */}
       </div>
-
-    {recommendedPosts.length && (
+    {recommendedPosts.length  && (
       <div className={classes.section}>
         <Typography gutterBottom variant="h5">You might also like: </Typography>
         <Divider />
-       <div className={classes.recommendedPosts}>
-        {recommendedPosts.map(({ title, message, name, likes, selectedFile, _id}) => (
+        <Grid container spacing={{ xs: 1, md: 2 }} columns={{ xs: 1, sm: 8, md: 12 }}>
+
+        {recommendedPosts.map(({ title, likes, selectedFile, _id}) => (
+          <Grid xs={2} sm={4} md={4}>
           <div style={{ margin: '20px', cursor: 'pointer'}} onClick={() => openPost(_id)} key={_id}> 
            <Typography gutterBottom variant="h6">{title}</Typography>
-           <Typography gutterBottom variant="subtitle2">{name}</Typography>
-           {/* <Typography gutterBottom variant="subtitle2">{message}</Typography> */}
            <Typography gutterBottom variant="subtitle1">Likes: {likes.length}</Typography>
-           <img src={selectedFile} width="200px"/>
-          </div>
+           {post.selectedFile && post.selectedFile.map((file, index) => (
+             <img key={index} src={file.url} alt={post.title} width={300} height={300}/>
         ))}
-       </div>
+          </div>
+          </Grid>
+        ))}
+      
+        </Grid>
       </div>
     )}
 

@@ -6,7 +6,7 @@ const postSchema = mongoose.Schema({
     name: String,
     creator: String,
     tags: [String],
-    selectedFiles: [{
+    selectedFile: [{
         public_id: {
             type: String,
             required: true

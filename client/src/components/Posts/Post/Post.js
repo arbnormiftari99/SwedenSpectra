@@ -86,9 +86,9 @@ const Post = ({ post, setCurrentId }) => {
         name="test"
         onClick={openPost}
       >
-        {post.selectedFiles.map((file, index) => (
-          <CardMedia key={index} className={classes.media} image={file.url} title={post.title} />
-        ))}
+        {post.selectedFile && post.selectedFile.map((file, index) => (
+  <CardMedia key={index} className={classes.media} image={file.url} title={post.title} />
+))}
         <div className={classes.overlay}>
           <Typography variant="h6">{post.name}</Typography>
           <Typography variant="body2">{moment(post.createdAt).startOf('minute').fromNow()}</Typography>
