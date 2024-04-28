@@ -16,11 +16,11 @@ import { useNavigate } from 'react-router-dom';
 
 
 const Post = ({ post, setCurrentId }) => {
-  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
-  const [openSnackbar, setOpenSnackbar] = useState(false);
   const showToast  = useToast()
   const classes = useStyles();
   const dispatch = useDispatch();
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
   const user = JSON.parse(localStorage.getItem('profile'));
   const navigate = useNavigate();
   const [likes, setLikes ] = useState(post && post.likes);
@@ -97,9 +97,7 @@ const Post = ({ post, setCurrentId }) => {
     name="test"
     onClick={openPost}
      >
-      <CardMedia className={classes.media} 
-      image={post.selectedFile.length > 0 ? `https://sweden-spectra-backend.vercel.app/imageuploads/${post.selectedFile[0].filename}` : ''} 
-      title={post.title} />
+      <CardMedia className={classes.media} image={post.selectedFile} title={post.title} />
       <div className={classes.overlay}>
         <Typography variant="h6">{post.name}</Typography>
         <Typography variant="body2">{moment(post.createdAt).startOf('minute').fromNow()}</Typography>
@@ -168,3 +166,6 @@ const Post = ({ post, setCurrentId }) => {
 };
 
 export default Post;
+
+
+

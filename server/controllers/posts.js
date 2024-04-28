@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import PostMessage from "../models/postMessage.js";
 import express from 'express';
+import sharp from 'sharp'; 
 
 const router = express.Router();
 
@@ -52,15 +53,14 @@ export const getPost = async (req,res) => {
 
 export const createPost = async (req, res) => {
     const post = req.body;
-    const newPost = new PostMessage({ ...post, creator: req.userId, createdAt: new Date().toISOString(), selectedFile: req.file });
-    try {
-        await newPost.save();
-        res.status(200).json(newPost);
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ message: "Failed to create post" });
-    }
-};
+    const newPost = new PostMessage({ ... post, creator: req.userId, createdAt: new Date().toISOString()});
+try {
+    await newPost.save();
+    res.status(200).json(newPost);
+} catch (error) {
+   console.log(error);
+}
+}
 
 
 

@@ -5,33 +5,17 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import postRoutes from './routes/posts.js';
 import userRoutes from './routes/users.js';
-import multer from 'multer';
-import { createPost } from './controllers/posts.js'
-import auth from './middleware/auth.js'
-
-const router = express.Router();
-
-
 
 const app = express();
 
+
+
+
 dotenv.config();
-app.use(bodyParser.json({ limit: "50mb"}));
-app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
+app.use(bodyParser.json({ limit: "100mb"}));
+app.use(bodyParser.urlencoded({ limit: "100mb", extended: true }));
+
 app.use(express.json());
-app.use('/imageuploads', express.static('imageuploads'));
-
-
- const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-      cb(null, 'imageuploads/'); 
-  },
-  filename: function (req, file, cb) {
-      cb(null, file.originalname); 
-  }
-});
-
- const upload = multer({ storage: storage });
 
 
 const corsOptions ={
@@ -52,7 +36,6 @@ app.options('*', (req, res) => {
 
 app.use('/posts', postRoutes);
 app.use('/user', userRoutes);
-app.post('/posts', auth, upload.single('file'), createPost);
 
 
 app.get('/', (req,res) => {
