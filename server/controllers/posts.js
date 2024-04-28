@@ -1,8 +1,7 @@
 import mongoose from "mongoose";
 import PostMessage from "../models/postMessage.js";
 import express from 'express';
-
-
+import cloudinary from "../middleware/config.cloudinary.js";
 const router = express.Router();
 
 
@@ -51,39 +50,61 @@ export const getPost = async (req,res) => {
    }
 }
 
-export const createPost = async (req, res) => {
-    const post = req.body;
-    const newPost = new PostMessage({ ... post, creator: req.userId, createdAt: new Date().toISOString()});
-try {
-    await newPost.save();
-    res.status(200).json(newPost);
-} catch (error) {
-   console.log(error);
-}
-}
-
-
-
 // export const createPost = async (req, res) => {
-//     const { title, message, tags, selectedFile } = req.body;
-//     let newPost;
+//     const post = req.body;
+//     const selectedFileArray = post.selectedFile;
+//     const result = await cloudinary.uploader.upload(selectedFileArray, {
+//         folder: "swedenSpectraImages",
+//     });
+//     const newPost = new PostMessage({ ... post, creator: req.userId, createdAt: new Date().toISOString(), 
+//         selectedFileArray: { public_id: result.public_id, url: result.secure_url } });
+// try {
+//     await newPost.save();
+//     res.status(200).json(newPost);
+// } catch (error) {
+//    console.log(error);
+// }
+// }
 
-//     try {
-//         if (image) {
-//             const webpBuffer = await sharp(image.buffer).toFormat('webp').toBuffer();
-//             newPost = new PostMessage({ title, message, tags, selectedFile: { buffer: webpBuffer, contentType: 'image/webp' }, creator: req.userId, createdAt: new Date().toISOString() });
-//         } else {
-//             newPost = new PostMessage({ title, message, creator: req.userId, createdAt: new Date().toISOString() });
-//         }
 
-//         await newPost.save();
-//         res.status(200).json(newPost);
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).json({ message: "Failed to create post" });
-//     }
-// };
+export const createPost = async (req, res) => {
+    const { title, message, tags, selectedFile } = req.body;
 
+    try {
+        let uploadedFiles = [];
+
+        // If selectedFile is an array, upload each file separately
+        if (Array.isArray(selectedFile)) {
+            uploadedFiles = await Promise.all(selectedFile.map(async (file) => {
+                const result = await cloudinary.uploader.upload(file, {
+                    folder: "swedenSpectraImages",
+                });
+                return { public_id: result.public_id, url: result.secure_url };
+            }));
+        } else {
+            // If selectedFile is a single file, upload it
+            const result = await cloudinary.uploader.upload(selectedFile, {
+                folder: "swedenSpectraImages",
+            });
+            uploadedFiles.push({ public_id: result.public_id, url: result.secure_url });
+        }
+
+        const newPost = new PostMessage({
+            title,
+            message,
+            tags,
+            selectedFile: uploadedFiles,
+            creator: req.userId,
+            createdAt: new Date().toISOString(),
+        });
+
+        await newPost.save();
+        res.status(200).json(newPost);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Something went wrong" });
+    }
+};
 
 
 
