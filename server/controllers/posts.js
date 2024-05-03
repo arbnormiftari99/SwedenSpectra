@@ -50,27 +50,63 @@ export const getPost = async (req,res) => {
    }
 }
 
-// export const createPost = async (req, res) => {
-//     const post = req.body;
-//     const selectedFileArray = post.selectedFile;
-//     const result = await cloudinary.uploader.upload(selectedFileArray, {
-//         folder: "swedenSpectraImages",
-//     });
-//     const newPost = new PostMessage({ ... post, creator: req.userId, createdAt: new Date().toISOString(), 
-//         selectedFileArray: { public_id: result.public_id, url: result.secure_url } });
-// try {
-//     await newPost.save();
-//     res.status(200).json(newPost);
-// } catch (error) {
-//    console.log(error);
-// }
-// }
 
+
+// export const createPost = async (req, res) => {
+//     const { title, message, tags, selectedFile } = req.body;
+
+//     try {
+//         let uploadedFiles = [];
+
+//         // If selectedFile is an array, upload each file separately
+//         if (Array.isArray(selectedFile)) {
+//             uploadedFiles = await Promise.all(selectedFile.map(async (file) => {
+//                 const result = await cloudinary.uploader.upload(file, {
+//                     folder: "swedenSpectraImages",
+//                 });
+//                 return { public_id: result.public_id, url: result.secure_url };
+//             }));
+//         } else {
+//             // If selectedFile is a single file, upload it
+//             const result = await cloudinary.uploader.upload(selectedFile, {
+//                 folder: "swedenSpectraImages",
+//             });
+//             uploadedFiles.push({ public_id: result.public_id, url: result.secure_url });
+//         }
+
+//         const newPost = new PostMessage({
+//             title,
+//             message,
+//             tags,
+//             selectedFile: uploadedFiles,
+//             creator: req.userId,
+//             createdAt: new Date().toISOString(),
+//         });
+
+//         await newPost.save();
+//         res.status(200).json(newPost);
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({ message: "Something went wrong" });
+//     }
+// };
 
 export const createPost = async (req, res) => {
     const { title, message, tags, selectedFile } = req.body;
 
     try {
+        // Create the post in the database
+        const newPost = new PostMessage({
+            title,
+            message,
+            tags,
+            creator: req.userId,
+            createdAt: new Date().toISOString(),
+        });
+
+        // Save the post to get its ID
+        await newPost.save();
+
         let uploadedFiles = [];
 
         // If selectedFile is an array, upload each file separately
@@ -89,22 +125,19 @@ export const createPost = async (req, res) => {
             uploadedFiles.push({ public_id: result.public_id, url: result.secure_url });
         }
 
-        const newPost = new PostMessage({
-            title,
-            message,
-            tags,
-            selectedFile: uploadedFiles,
-            creator: req.userId,
-            createdAt: new Date().toISOString(),
-        });
+        // Update the post with uploaded image(s)
+        newPost.selectedFile = uploadedFiles;
 
+        // Save the post again to update the selectedFile field
         await newPost.save();
+
         res.status(200).json(newPost);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Something went wrong" });
     }
 };
+
 
 
 
