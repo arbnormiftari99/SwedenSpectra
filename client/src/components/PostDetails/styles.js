@@ -1,115 +1,110 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 export default makeStyles((theme) => ({
-    media: {
-        // display: 'flex',
-        flex: 2,
-        borderRadius: '20px',
-        objectFit: 'cover',
-        width: '100%',
-        maxHeight: '600px',
+    paper: {
+        padding: theme.spacing(3),
+        borderRadius: theme.spacing(2),
     },
-    card: {
-        flex: 1,
-        display: 'flex',
-        width: '100%',
-        [theme.breakpoints.down('sm')]: {
-            flexWrap: 'wrap',
-            flexDirection: 'column',
-        }
-    },
-    section: {
-       width: 'auto',
-        borderRadius: '20px',
-        margin: '10px',
-        flex: 1,
-    },
-    imageSection: {
-        marginLeft: '20px',
-        width: '50%',
-        flex: 2,
-        [theme.breakpoints.down('sm')]: {
-            marginLeft: 0,
-            width: '100%'
-        }
-    },
-    recommendedPosts: {
-        display: 'flex',
-        [theme.breakpoints.down('sm')]: {
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-        },
-    },
-
-    loadingPaper: {
+    container: {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        padding: '20px',
-        borderRadius: '15px',
-        height: '40vh'
+        height: '100%',
     },
-    commentsOuterContainer: {
-        
-        display: 'flex', justifyContent: 'space-between',
-        flexDirection: 'column',
-        width: '400px',
-        marginLeft: '50px',
-        [theme.breakpoints.down('sm')]: {
-            justifyContent: 'center',
-            display: 'flex',
-            width: '300px',
+    mainImageContainer: {
+        border: `2px solid ${theme.palette.primary.main}`,
+        borderRadius: theme.spacing(2),
+        boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+        overflow: 'hidden'
+    },
+    mainImage: {
+        width: '100%',
+        cursor: 'pointer',
+        transition: 'transform 0.3s ease-in-out',
+        '&:hover': {
+            transform: 'scale(1.05)',
         },
-        
     },
-    commentsInnerContainer: {
-       height: '200px', marginRight: '30px', overflowX: 'hidden', wordWrap: 'break-word',
-       [theme.breakpoints.down('sm')]: {
-        textAlign: 'center',
-        overflowX: 'hidden',
-         wordWrap: 'break-word',
-         width: '200px',
+    detailsSection: {
+        padding: theme.spacing(2),
     },
-
-
-
-    },
-    titleContainer: {
-        grid: '5fr',
-        width: 'auto',
-        textAlign: 'center',
+    mainTitle: {
+        marginBottom: theme.spacing(1),
         wordWrap: 'break-word',
-          [theme.breakpoints.down('sm')]: {
-            textAlign: 'center',
-            height: 'auto',
-            width: 'auto',
-          },
+        overflowWrap: 'break-word',
+        hyphens: 'auto',
+    },
+    mainAuthor: {
+        marginBottom: theme.spacing(1),
+    },
+    mainCreatedAt: {
+        marginBottom: theme.spacing(1),
+    },
+    mainMessage: {
+        marginBottom: theme.spacing(2),
+        wordWrap: 'break-word',
+        overflowWrap: 'break-word',
+        hyphens: 'auto',
+    },
+    divider: {
+        margin: `${theme.spacing(2)}px 0`,
     },
     tagsContainer: {
-        width: 'auto',
-        textAlign: 'center',
-    },
-    messageContainer: {
-       width: '400px',
+        marginBottom: theme.spacing(2),
         wordWrap: 'break-word',
-        textAlign: 'center',
-        [theme.breakpoints.down('sm')]: {
-            textAlign: 'center',
-            width: '300px',
-            height: 'auto'
-  
-          },
-    }, 
+        overflowWrap: 'break-word',
+        hyphens: 'auto',
+    },
+    recommendedPosts: {
+        marginTop: theme.spacing(3),
+    },
+    recommendedPost: {
+        padding: theme.spacing(2),
+        cursor: 'pointer',
+        transition: 'transform 0.3s ease-in-out',
+        '&:hover': {
+            transform: 'scale(1.05)',
+            backgroundColor: '#f5f5f5',
+        },
+    },
+    recommendedImage: {
+        width: '100%',
+        borderRadius: theme.spacing(1),
+        marginBottom: theme.spacing(1),
+    },
+    recommendedTitle: {
+        marginBottom: theme.spacing(1),
+    },
+    commentsOuterContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+        marginBottom: theme.spacing(2),
+    },
+    commentsInnerContainer: {
+        maxHeight: '200px',
+        overflowY: 'auto',
+        marginRight: theme.spacing(2),
+        padding: theme.spacing(2),
+        border: `1px solid ${theme.palette.divider}`,
+        borderRadius: theme.spacing(1),
+        marginBottom: theme.spacing(2),
+        wordWrap: 'break-word',
+        overflowWrap: 'break-word',
+        hyphens: 'auto',
+        backgroundColor: '#f9f9f9',
+        boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+    },
     writeCommentSection: {
-        width: '90%',
-        [theme.breakpoints.down('sm')]: {
-           justifyContent: 'center',
-           width: '70%'
-  
-          },
+        width: '100%',
+    },
+    commentInput: {
+        marginBottom: theme.spacing(1),
+    },
+    sendButton: {
+        marginTop: theme.spacing(1),
+    },
+    
+}));
 
-    }
 
-
-}))
