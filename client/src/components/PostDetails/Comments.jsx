@@ -12,27 +12,26 @@ const Comments = ({ post }) => {
     const [comment, setComment] = useState('');
     const dispatch = useDispatch();
     const commentsRef = useRef();
-    const [emojiPickerOpen, setEmojiPickerOpen] = useState(false); // State to manage emoji picker visibility
+    const [emojiPickerOpen, setEmojiPickerOpen] = useState(false); 
 
     const handleClick = async () => {
         const finalComment = `${user.result.name}: ${comment}`;
         const newComment = await dispatch(commentPost(finalComment, post._id));
         setComments(newComment);
         setComment('');
-        setEmojiPickerOpen(false); // Close emoji picker after submitting comment
+        setEmojiPickerOpen(false); 
         commentsRef.current.scrollIntoView({ behavior: 'smooth' });
     };
 
     const handleKeyPress = (event) => {
         if (event.keyCode === 13 && !event.shiftKey) {
-            // Submit comment on Enter key press, unless Shift key is pressed for new line
             handleClick();
         }
     };
 
     const handleEmojiSelect = (emoji) => {
         if (emoji && emoji.emoji) {
-            setComment((prevComment) => prevComment + emoji.emoji); // Append selected emoji to comment text
+            setComment((prevComment) => prevComment + emoji.emoji); 
         }
     };
 
