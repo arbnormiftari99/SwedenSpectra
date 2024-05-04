@@ -92,7 +92,7 @@ export const getPost = async (req,res) => {
 // };
 
 export const createPost = async (req, res) => {
-    const { title, message, tags, selectedFile } = req.body;
+    const { title, message, tags, selectedFile, name } = req.body;
 
     try {
         // Create the post in the database
@@ -102,6 +102,7 @@ export const createPost = async (req, res) => {
             tags,
             creator: req.userId,
             createdAt: new Date().toISOString(),
+            name
         });
 
         // Save the post to get its ID

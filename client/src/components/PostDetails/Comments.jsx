@@ -38,16 +38,19 @@ return (
     <div>
 
     <div className={classes.commentsOuterContainer}>
+    <Typography gutterBottom variant="h6">Comments</Typography>
     <div className={classes.commentsInnerContainer}>
-   <Typography gutterBottom variant="h6">Comments</Typography>
-        {comments.map((c, i) => (
-            <Typography key={i} gutterBottom variant="subtitle1">
-               <strong>{c.split(': ')[0]}</strong>
-               {c.split(':')[1]}
-               <div ref={commentsRef} />
-             </Typography>
-        ))}
-        
+    {comments.length === 0 ? (
+            <Typography variant="subtitle1">No comments yet.</Typography>
+          ) : (
+            comments.map((c, i) => (
+              <Typography key={i} gutterBottom variant="subtitle1">
+                <strong>{c.split(': ')[0]}</strong>
+                {c.split(':')[1]}
+                <div ref={commentsRef} />
+              </Typography>
+            ))
+          )}
         </div>
         {user && user.result && user.result.name && (
         <div className={classes.writeCommentSection}>

@@ -47,14 +47,13 @@ const PostDetails = () => {
 
       <div className={classes.imageSection}>
       {post.selectedFile && post.selectedFile.map((file, index) => (
-       <img key={index} className={classes.media} src={file.url} alt={post.title} />
+       <img key={index} className={classes.media} src={file.url || 'https://static.vecteezy.com/system/resources/previews/005/337/799/original/icon-image-not-found-free-vector.jpg'} alt={post.title} />
         ))}
         </div>
 
         <div className={classes.section}>
          <div className="commentsDetails">
           <Typography variant="h3" component="h2" className={classes.titleContainer}>{post.title}</Typography>
-          {/* <Typography gutterBottom variant="h6" color="textSecondary" component="h2">{post.tags.map((tag) => `#${tag}`)}</Typography> */}
           <Typography gutterBottom variant="body1" component="p" className={classes.messageContainer}>{post.message}</Typography>
           <Typography variant="h7" color="textSecondary" gutterBottom>Created by: {post.name}</Typography>
           <Typography gutterBottom variant="h6" color="textSecondary" component="h2" className={classes.messageContainer}><strong>Tags:</strong> {post.tags.map((tag) => `#${tag}`)}</Typography>
@@ -69,6 +68,7 @@ const PostDetails = () => {
           <img className={classes.media} src={post.selectedFile || 'https://static.vecteezy.com/system/resources/previews/005/337/799/original/icon-image-not-found-free-vector.jpg'} alt={post.title} /> 
         </div> */}
       </div>
+      <div className={classes.recommendedPosts}>
     {recommendedPosts.length  && (
       <div className={classes.section}>
         <Typography gutterBottom variant="h5">You might also like: </Typography>
@@ -80,8 +80,8 @@ const PostDetails = () => {
           <div style={{ margin: '20px', cursor: 'pointer'}} onClick={() => openPost(_id)} key={_id}> 
            <Typography gutterBottom variant="h6">{title}</Typography>
            <Typography gutterBottom variant="subtitle1">Likes: {likes.length}</Typography>
-           {post.selectedFile && post.selectedFile.map((file, index) => (
-             <img key={index} src={file.url} alt={post.title} width={300} height={300}/>
+           {selectedFile && selectedFile.map((file, index) => (
+       <img key={index} src={file.url} style={{ borderRadius: '15px'}}alt={post.title} width={300} height={300}/>
         ))}
           </div>
           </Grid>
@@ -89,8 +89,9 @@ const PostDetails = () => {
       
         </Grid>
       </div>
+    
     )}
-
+  </div>
     </Paper>
 
 

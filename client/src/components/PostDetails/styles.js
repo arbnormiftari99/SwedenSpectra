@@ -76,17 +76,24 @@ export default makeStyles((theme) => ({
 
     },
     titleContainer: {
-        grid: '1fr',
+        grid: '5fr',
+        width: 'auto',
         textAlign: 'center',
-          wordWrap: 'break-word',
+        wordWrap: 'break-word',
           [theme.breakpoints.down('sm')]: {
             textAlign: 'center',
-            height: 'auto'
+            height: 'auto',
+            width: 'auto',
           },
+    },
+    tagsContainer: {
+        width: 'auto',
+        textAlign: 'center',
     },
     messageContainer: {
        width: '400px',
         wordWrap: 'break-word',
+        textAlign: 'center',
         [theme.breakpoints.down('sm')]: {
             textAlign: 'center',
             width: '300px',
