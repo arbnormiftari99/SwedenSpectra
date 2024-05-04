@@ -60,7 +60,7 @@ const PostDetails = () => {
           <Typography variant="body1">{moment(post.createdAt).fromNow()}</Typography>
           <Divider style={{ margin: '20px 0', width: '20px'}} />
           <Comments post={post}/>
-          <Divider style={{ margin: '20px 0'}} />
+          <Divider />
           </div>
 
         </div>
