@@ -51,46 +51,6 @@ export const getPost = async (req,res) => {
 }
 
 
-
-// export const createPost = async (req, res) => {
-//     const { title, message, tags, selectedFile } = req.body;
-
-//     try {
-//         let uploadedFiles = [];
-
-//         // If selectedFile is an array, upload each file separately
-//         if (Array.isArray(selectedFile)) {
-//             uploadedFiles = await Promise.all(selectedFile.map(async (file) => {
-//                 const result = await cloudinary.uploader.upload(file, {
-//                     folder: "swedenSpectraImages",
-//                 });
-//                 return { public_id: result.public_id, url: result.secure_url };
-//             }));
-//         } else {
-//             // If selectedFile is a single file, upload it
-//             const result = await cloudinary.uploader.upload(selectedFile, {
-//                 folder: "swedenSpectraImages",
-//             });
-//             uploadedFiles.push({ public_id: result.public_id, url: result.secure_url });
-//         }
-
-//         const newPost = new PostMessage({
-//             title,
-//             message,
-//             tags,
-//             selectedFile: uploadedFiles,
-//             creator: req.userId,
-//             createdAt: new Date().toISOString(),
-//         });
-
-//         await newPost.save();
-//         res.status(200).json(newPost);
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).json({ message: "Something went wrong" });
-//     }
-// };
-
 export const createPost = async (req, res) => {
     const { title, message, tags, selectedFile, name } = req.body;
 
@@ -155,11 +115,22 @@ export const deletePost = async(req,res) => {
 
     if(!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send('Here is not a valid id');
 
-    await PostMessage.findByIdAndRemove(id);
- 
-    res.json({message: 'Post deleted successfully'});
+    try {
+        const post = await PostMessage.findById(id);
 
+        if (post.selectedFile && post.selectedFile.length > 0) {
+            await Promise.all(post.selectedFile.map(async (file) => {
+                await cloudinary.uploader.destroy(file.public_id);
+            }));
+        }
 
+        await PostMessage.findByIdAndRemove(id);
+
+        res.json({message: 'Post deleted successfully'});
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Something went wrong" });
+    }
 }
 
 export const likePost = async(req, res) => {
