@@ -75,6 +75,11 @@ export const createPost = async (req, res) => {
             uploadedFiles = await Promise.all(selectedFile.map(async (file) => {
                 const result = await cloudinary.uploader.upload(file, {
                     folder: "swedenSpectraImages",
+                    resource_type: "auto", // Choose the appropriate resource type automatically
+                    transformation: {
+                      width: 800, 
+                      q_auto: true,
+                    },
                 });
                 return { public_id: result.public_id, url: result.secure_url };
             }));
@@ -82,6 +87,11 @@ export const createPost = async (req, res) => {
             // If selectedFile is a single file, upload it
             const result = await cloudinary.uploader.upload(selectedFile, {
                 folder: "swedenSpectraImages",
+                resource_type: "auto", // Choose the appropriate resource type automatically
+                transformation: {
+                  width: 800,
+                  q_auto: true, 
+                },
             });
             uploadedFiles.push({ public_id: result.public_id, url: result.secure_url });
         }
